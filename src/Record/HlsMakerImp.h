@@ -27,20 +27,28 @@ public:
 
     /**
      * 设置媒体信息
-     * @param vhost 虚拟主机
-     * @param app 应用名
-     * @param stream_id 流id
+     * Set media information
+     
+     * [AUTO-TRANSLATED:d205db9f]
      */
-    void setMediaSource(const std::string &vhost, const std::string &app, const std::string &stream_id);
+    void setMediaSource(const MediaTuple& tuple);
 
     /**
      * 获取MediaSource
      * @return
+     * Get MediaSource
+     * @return
+     
+     * [AUTO-TRANSLATED:af916433]
      */
     HlsMediaSource::Ptr getMediaSource() const;
 
      /**
       * 清空缓存
+      * Clear cache
+      
+      
+      * [AUTO-TRANSLATED:f872d7e2]
       */
      void clearCache();
 
@@ -55,6 +63,7 @@ protected:
 private:
     std::shared_ptr<FILE> makeFile(const std::string &file,bool setbuf = false);
     void clearCache(bool immediately, bool eof);
+    void saveCurrentDir();
 
 private:
     int _buf_size;
@@ -63,12 +72,15 @@ private:
     std::string _path_hls_delay;
     std::string _path_init;
     std::string _path_prefix;
+    std::string _current_dir;
+    std::string _current_dir_init_file;
     RecordInfo _info;
     std::shared_ptr<FILE> _file;
     std::shared_ptr<char> _file_buf;
     HlsMediaSource::Ptr _media_src;
     toolkit::EventPoller::Ptr _poller;
     std::map<uint64_t/*index*/,std::string/*file_path*/> _segment_file_paths;
+    std::deque<std::tuple<int,std::string> > _current_dir_seg_list;
 };
 
 }//namespace mediakit
